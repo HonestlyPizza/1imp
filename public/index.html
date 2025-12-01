@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Impostor – The Party Game</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Main Menu -->
+        <div id="main-menu" class="screen active">
+            <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+                <h1>
+                    <span class="icon">🎭</span>
+                    Word Impostor
+                </h1>
+                <p class="subtitle">The social deduction party game</p>
+                
+                <div class="menu-buttons">
+                    <div class="form-group">
+                        <label for="player-name">Your Name</label>
+                        <select id="player-name">
+                            <option value="">Select your name</option>
+                            <option value="Jonah">Jonah</option>
+                            <option value="Apollo">Apollo</option>
+                            <option value="Rubey">Rubey</option>
+                            <option value="Ethan">Ethan</option>
+                            <option value="Micah">Micah</option>
+                        </select>
+                    </div>
+                    
+                    <div class="player-count-selector">
+                        <label for="player-count-select">Players</label>
+                        <select id="player-count-select">
+                            <option value="3">3 Players</option>
+                            <option value="4" selected>4 Players</option>
+                            <option value="5">5 Players</option>
+                            <option value="6">6 Players</option>
+                            <option value="7">7 Players</option>
+                            <option value="8">8 Players</option>
+                        </select>
+                    </div>
+                    
+                    <button id="host-btn" class="btn btn-primary">Create Game</button>
+                    <button id="join-btn" class="btn btn-secondary">Join Game</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Join Room Screen -->
+        <div id="join-screen" class="screen">
+            <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+                <h2>Join Game</h2>
+                
+                <div class="menu-buttons">
+                    <div class="form-group">
+                        <label for="room-code-input">Room Code</label>
+                        <input type="text" id="room-code-input" placeholder="Enter 6-digit code" maxlength="6" style="text-transform: uppercase; text-align: center; letter-spacing: 0.1em; font-weight: 600;">
+                    </div>
+                    
+                    <button id="submit-join-btn" class="btn btn-primary">Join Room</button>
+                    <button id="back-to-menu-btn" class="btn btn-ghost">← Back to Menu</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Host Lobby -->
+        <div id="host-lobby" class="screen">
+            <h2>Game Lobby</h2>
+            
+            <div class="room-code-display">
+                <span>Share this code with players</span>
+                <span id="display-room-code" class="code"></span>
+                <button id="copy-code-btn" class="btn btn-sm btn-secondary">Copy Code</button>
+            </div>
+            
+            <div class="players-section">
+                <h3>Players <span id="host-player-count">0</span>/<span id="host-max-players">4</span></h3>
+                <ul id="host-player-list" class="player-list"></ul>
+            </div>
+            
+            <div class="word-input-section">
+                <div class="form-group">
+                    <label for="word-input">Secret Word</label>
+                    <input type="text" id="word-input" placeholder="Enter the secret word" maxlength="30">
+                </div>
+                <button id="start-game-btn" class="btn btn-primary" disabled>Start Game</button>
+            </div>
+            
+            <button id="host-leave-btn" class="btn btn-ghost" style="margin-top: auto;">Close Room</button>
+        </div>
+
+        <!-- Player Lobby -->
+        <div id="player-lobby" class="screen">
+            <h2>Game Lobby</h2>
+            
+            <div class="room-code-display">
+                <span>Room Code</span>
+                <span id="player-room-code" class="code"></span>
+                <p style="color: var(--text-secondary); font-size: 0.875rem;">Hosted by <strong id="lobby-host-name"></strong></p>
+            </div>
+            
+            <div class="players-section">
+                <h3>Players <span id="player-count">0</span>/<span id="player-max-players">4</span></h3>
+                <ul id="player-list" class="player-list"></ul>
+            </div>
+            
+            <p class="waiting-text">Waiting for host to start the game...</p>
+            
+            <button id="player-leave-btn" class="btn btn-ghost" style="margin-top: auto;">Leave Room</button>
+        </div>
+
+        <!-- Host Game Screen -->
+        <div id="host-game" class="screen">
+            <h2>Game in Progress</h2>
+            
+            <div class="game-info-host">
+                <div class="secret-word-display">
+                    <span>Secret Word</span>
+                    <span id="host-secret-word" class="word"></span>
+                </div>
+                <div class="imposter-display">
+                    <span>Impostor</span>
+                    <span id="host-imposter-name" class="imposter"></span>
+                </div>
+            </div>
+            
+            <div class="players-game-section">
+                <h3>Players</h3>
+                <ul id="host-game-players" class="player-list game-list"></ul>
+            </div>
+            
+            <div class="chat-section">
+                <h3>Game Chat</h3>
+                <div id="host-chat-messages" class="chat-messages"></div>
+                <div class="chat-input-area">
+                    <input type="text" id="host-chat-input" placeholder="Type a message...">
+                    <button id="host-send-chat" class="btn btn-sm btn-primary">Send</button>
+                </div>
+            </div>
+            
+            <div class="host-controls">
+                <div class="next-round-section">
+                    <input type="text" id="next-word-input" placeholder="Next round's word">
+                    <button id="next-round-btn" class="btn btn-primary">Next Round</button>
+                </div>
+                <div class="transfer-host-section">
+                    <label for="transfer-host-select">Transfer Host To:</label>
+                    <div class="input-group">
+                        <select id="transfer-host-select"></select>
+                        <button id="transfer-host-btn" class="btn btn-secondary">Transfer</button>
+                    </div>
+                </div>
+                <button id="reveal-btn" class="btn btn-warning">Reveal Impostor</button>
+                <button id="end-game-btn" class="btn btn-ghost">End Game</button>
+            </div>
+        </div>
+
+        <!-- Player Game Screen -->
+        <div id="player-game" class="screen">
+            <h2>Game in Progress</h2>
+            
+            <div id="player-role" class="role-display"></div>
+            
+            <div class="players-game-section">
+                <h3>Players</h3>
+                <ul id="player-game-players" class="player-list game-list"></ul>
+            </div>
+            
+            <div class="chat-section">
+                <h3>Game Chat</h3>
+                <div id="player-chat-messages" class="chat-messages"></div>
+                <div class="chat-input-area">
+                    <input type="text" id="player-chat-input" placeholder="Type a message...">
+                    <button id="player-send-chat" class="btn btn-sm btn-primary">Send</button>
+                </div>
+            </div>
+            
+            <p class="waiting-text">Waiting for host to continue...</p>
+        </div>
+
+        <!-- Reveal Screen -->
+        <div id="reveal-screen" class="screen">
+            <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+                <h2>Round Complete</h2>
+                
+                <div class="reveal-info">
+                    <p>The secret word was</p>
+                    <p><span id="revealed-word" class="word" style="font-size: 2rem;"></span></p>
+                    <p style="margin-top: 24px;">The impostor was</p>
+                    <p><span id="revealed-imposter" class="imposter" style="font-size: 1.5rem;"></span></p>
+                </div>
+                
+                <p class="waiting-text">Waiting for host to start next round...</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="notification" class="notification"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+{
+  "name": "imposter-word-game",
+  "version": "1.0.0",
+  "description": "A 4-player word game where 1 person is the imposter",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "game",
+    "multiplayer",
+    "websocket",
+    "imposter"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "ws": "^8.14.2"
+  }
+}
